@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShopList.Gui.Views.ShopListPage"
+             xmlns:viewmodels="clr-namespace:ShopList.Gui.ViewModels"
+             xmlns:models="clr-namespace:ShopList.Gui.Models"
+             x:DataType="viewmodels:ShopListViewModel"
+             Title="ShopListPage">
+    <Grid
+        RowDefinitions="auto,*"
+        Padding="8"
+        RowSpacing="4"
+        >
+        <Grid
+            ColumnDefinitions="*,auto,auto"
+            ColumnSpacing="4">
+
+            <Button
+            Grid.Column="1"
+            Text="+"
+            FontSize="Medium"
+            BackgroundColor="Green"/>
+
+            <Button
+            Grid.Column="2"
+            Text="X"
+            FontSize="Medium"
+            BackgroundColor="Red"/>
+
+        </Grid>
+
+        <CollectionView
+            Grid.Row="1"
+            SelectionMode="Single"
+            ItemsSource="{Binding Items}"
+            EmptyView="No se han agregado articulos"
+            BackgroundColor="Gray">
+            <!--Modificar color-->
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type models:ShopListItem}">
+                    <Border
+                        Stroke="#ac99ea"
+                        StrokeThickness="1">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="5"/>
+                        </Border.StrokeShape>
+
+                        <Grid 
+                        ColumnDefinitions="auto,*,auto"
+                        Padding="14">
+
+                            <CheckBox
+                            Grid.Column="0"
+                            IsChecked="{Binding Comprado}"/>
+
+                            <Label
+                            Grid.Column="1"
+                            Text="{Binding Nombre}"
+                            FontSize="Small"
+                            VerticalOptions="Center"/>
+
+                            <Label
+                            Grid.Column="2"
+                            Text="{Binding Cantidad}"
+                            FontSize="Small"
+                            Padding="0,0,8,0"
+                            VerticalOptions="Center"
+                            HorizontalOptions="End"/>
+
+                        </Grid>
+                    </Border>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+    </Grid>
+</ContentPage>
