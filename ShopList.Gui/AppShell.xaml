@@ -7,8 +7,10 @@
     Title="ShopList.Gui">
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:ShopListPage}"
-        Route="MainPage" />
+    Title="Home"
+    ContentTemplate="{DataTemplate local:ShopListPage}"
+    Route="MainPage" />
+  
+        
 
 </Shell>

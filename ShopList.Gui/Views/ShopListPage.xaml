@@ -5,7 +5,7 @@
              xmlns:viewmodels="clr-namespace:ShopList.Gui.ViewModels"
              xmlns:models="clr-namespace:ShopList.Gui.Models"
              x:DataType="viewmodels:ShopListViewModel"
-             Title="ShopListPage">
+             Title="Lista de compras">
     <Grid
         RowDefinitions="auto,*"
         Padding="8"
@@ -19,7 +19,8 @@
             Grid.Column="1"
             Text="+"
             FontSize="Medium"
-            BackgroundColor="Green"/>
+            BackgroundColor="Green"
+            Command="{Binding Path=AddItemCommand}"/>
 
             <Button
             Grid.Column="2"
@@ -77,4 +78,4 @@
         </CollectionView>
 
     </Grid>
-</ContentPage>
+</ContentPage> 
