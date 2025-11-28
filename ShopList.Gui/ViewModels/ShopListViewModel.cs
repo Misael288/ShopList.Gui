@@ -1,20 +1,28 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ShopList.Gui.Models;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+using ShopList.Gui.Views;
 
+using System.Collections.ObjectModel;
 
 namespace ShopList.Gui.ViewModels
 {
     public partial class ShopListViewModel : ObservableObject
     {
+        [ObservableProperty]
+        private ShopListItem? _elementoSeleccionado = null;
         public ObservableCollection<ShopListItem> Items { get; }
 
         public ShopListViewModel()
         {
             Items = new ObservableCollection<ShopListItem>();
             CargarDatos();
+            if (Items.Count > 0)
+            {
+                //ElementoSeleccionado = Items[0];
+                ElementoSeleccionado = Items.First();
+            }
+
         }
 
         private void CargarDatos()
@@ -41,14 +49,65 @@ namespace ShopList.Gui.ViewModels
                 Comprado = false,
             });
         }
+
         [RelayCommand]
-    public async void  AddItem()
+        public async Task AddItem()
         {
-           await Shell.Current.GoToAsync("itemdetails");
+            //await Shell.Current.GoToAsync("itemdetails");
+            await Shell.Current.Navigation.PushAsync(
+                new ItemDetailsPage(OnDataReturned)
+                );
+
+
         }
-    
+
+        [RelayCommand]
+        public void RemoveItem()
+        {
+            if (ElementoSeleccionado == null)
+            {
+                return;
+            }
+            ShopListItem? nuevoElementoSeleccionado;
+            int indice = Items.IndexOf(ElementoSeleccionado);
+            if (Items.Count > 1)
+            {
+                //Hay por lo menos dos elementos
+                if (indice == Items.Count - 1)
+                {
+                    nuevoElementoSeleccionado = Items[indice - 1];
+                }
+                else
+                {
+                    nuevoElementoSeleccionado = Items[indice + 1];
+                }
+            }
+            else
+            {
+                nuevoElementoSeleccionado = null;
+            }
+
+
+            Items.Remove(ElementoSeleccionado);
+            ElementoSeleccionado = nuevoElementoSeleccionado;
+        }
+
+        public void OnDataReturned(ShopListItem item)
+        {
+            if (item == null)
+            {
+                return;
+            }
+            Items.Add(item);
+        }
+
+        //private Task<ShopListItem> NavigateForResult()
+        //{
+        //    var tcs = new TaskCompletionSource<ShopListItem>();
+        //    Shell.Current.Navigation.PushAsync(
+        //        new ItemDetailsPage(tcs)
+        //        );
+        //    return tcs.Task;
+        //}
     }
-
-
-
 }

@@ -20,13 +20,14 @@
             Text="+"
             FontSize="Medium"
             BackgroundColor="Green"
-            Command="{Binding Path=AddItemCommand}"/>
+            Command="{Binding AddItemCommand}"/>
 
             <Button
             Grid.Column="2"
             Text="X"
             FontSize="Medium"
-            BackgroundColor="Red"/>
+            BackgroundColor="Red"
+            Command="{Binding RemoveItemCommand}"/>
 
         </Grid>
 
@@ -35,8 +36,9 @@
             SelectionMode="Single"
             ItemsSource="{Binding Items}"
             EmptyView="No se han agregado articulos"
-            BackgroundColor="Gray">
-            <!--Modificar color-->
+            BackgroundColor="Gray"
+            SelectedItem="{Binding ElementoSeleccionado}">
+
 
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="{x:Type models:ShopListItem}">
@@ -78,4 +80,4 @@
         </CollectionView>
 
     </Grid>
-</ContentPage> 
+</ContentPage>

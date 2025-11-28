@@ -12,24 +12,38 @@ namespace ShopList.Gui.ViewModels
 
         [ObservableProperty]
         private int _cantidad = 1;
+        private readonly Action<ShopListItem> _returnDataCallBack;
+
+
+        public ItemDetailsViewModel(
+            Action<ShopListItem> returnDataCallBack)
+        {
+            _returnDataCallBack = returnDataCallBack;
+        }
 
         [RelayCommand]
-        public void Guardad()
+        public async Task Guardad()
         {
-            var item = new ShopListItem()
+            if (!string.IsNullOrEmpty(this.Nombre)
+                && this.Cantidad >= 1)
             {
-                Nombre = this.Nombre,
-                Cantidad = this.Cantidad,
-                Comprado = false,
-            };
-
-            Shell.Current.GoToAsync("..");
+                var item = new ShopListItem()
+                {
+                    Nombre = this.Nombre,
+                    Cantidad = this.Cantidad,
+                    Comprado = false,
+                };
+                _returnDataCallBack(item);
+                //Shell.Current.GoToAsync("..");           
+                await Shell.Current.Navigation.PopAsync();
+            }
         }
 
         [RelayCommand]
         public async Task Cancelar()
         {
-            await Shell.Current.GoToAsync("..");
+            //await Shell.Current.GoToAsync("..");
+            await Shell.Current.Navigation.PopAsync();
         }
     }
 }
